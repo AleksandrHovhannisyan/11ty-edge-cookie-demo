@@ -1,0 +1,8 @@
+[dev]
+  command = "npm run serve"
+  targetPort = 4001
+  publish = "_site/"
+
+[build]
+  publish = "_site/"
+  command = "npm run build"
