@@ -1,20 +1,43 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie demo</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍪</text></svg>">
-    <meta name="description" content="A simple demo of setting cookies on the server side.">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie demo</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍪</text></svg>">
+  <meta name="description" content="A simple demo of setting cookies on the server side.">
+  <style>
+    body { font-size: 112.5%; font-family: Arial, sans-serif; }
+    th,td { border: solid 1px; }
+    table { border-collapse: collapse; }
+    caption { white-space: nowrap; margin-bottom: 0.25rem; }
+  </style>
 </head>
 <body>
-    {% edge %}
-    {%- assign visitCount = eleventy.edge.cookies.visitCount | default: 0 | plus: 1 -%}
-    <h1>You visited this page {{ visitCount }} time{% unless visitCount == 1 %}s{% endunless %}</h1>
-    <form action="{{ page.url }}" method="GET">
-        <button type="submit">Reload the page</button>
-    </form>
-    {% endedge %}
+  {% edge %}
+  {%- assign cookies = "name1,name2,name3" | split: "," -%}
+  <h1>Cookie demo (with 11ty and Netlify Edge)</h1>
+  <table>
+    <caption>Cookies returned from the server</caption>
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for cookie in cookies -%}
+        <tr>
+          <td>{{ cookie }}</td>
+          <td>{{ eleventy.edge.cookies[cookie] | escape }}</td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+  {% endedge %}
 </body>
+
 </html>

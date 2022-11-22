@@ -2,21 +2,29 @@ import { EleventyEdge, precompiledAppData } from "./_generated/eleventy-edge-app
 
 export default async (request, context) => {
   try {
-    const visitCount = parseInt(context.cookies.get("visitCount"), 10) || 0;
-    console.log(`before`, visitCount, `after`, visitCount + 1);
     context.cookies.set({
-			name: 'visitCount',
-			value: `${visitCount + 1}`,
+			name: 'name1',
+			value: `value1`,
 			path: '/',
 			httpOnly: true,
-			secure: true,
+		});
+    context.cookies.set({
+			name: 'name2',
+			value: `value2`,
+			path: '/',
+      maxAge: 10,
+		});
+    context.cookies.set({
+			name: 'name3',
+			value: `value3`,
+			path: '/',
+      secure: true,
 		});
     let edge = new EleventyEdge("edge", {
       request,
       context,
       precompiled: precompiledAppData,
-      // default is [], add more keys to opt-in e.g. ["appearance", "username"]
-      cookies: ['visitCount'],
+      cookies: ['name1', 'name2', 'name3'],
     });
     return await edge.handleResponse();
   } catch (e) {
